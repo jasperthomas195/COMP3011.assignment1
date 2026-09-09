@@ -8,5 +8,85 @@
 <body>
     <h1>Java Web Project</h1>
     <p>Assignment 1</p>
+	
+	<!--Starts a new recording-->
+	<button id="startButton">Start Recording</button>
+	
+	<!--Stops the current recording, disabled until recording begins-->
+	<button id="stopButton" disabled>Stop Recording</button>
+	
+	<!--Displays the current status of the recording-->
+	<p id="status">Ready to record.</p>
+	
+	<!--When recording is finished, the message begins recording-->
+	<p id="recordingResult"></p>
+	
+	<script>
+		let mediaRecorder;
+		let audioChunks = []; 
+		
+		const startButton = document.getElementById("startButton");
+		const stopButton = document.getElementById("stopButton");
+		const status = document.getElementById("status");
+		const recordingResult = document.getElementById("recordingResult");
+		
+		startButton.addEventListener("click", async () => {
+			try {
+				// Asks the browser for microphone peromission
+				const stream = await navigator.mediaDevices.getUserMedia({
+					audio: true
+				});
+				
+				// Clears audio from previous recordings 
+				audioChunks = [];
+				
+				// Creates object that records audio from microphone
+				mediaRecorder = new MediaRecorder(stream);
+				
+				// Stores each audio recording 
+				mediaRecorder.addEventListener("dataavailable", (event) => {
+					audioChunks.push(event.data);
+				});
+				
+				// Combines each part of recording into one, once recording is finished
+				mediaRecorder.addEventListener("stop", () => {
+					const audioBlob = new Blob(audioChunks, {
+						type: "audio/webm"
+					});
+					
+					recordingResult.textContent = 
+						"Recording Finished: " + audioBlob.size + " bytes.";
+						
+					// Releases the micrphone after recording
+					stream.getTracks().forEach((track) => track.stop());
+					
+					startButton.disabled = false;
+					stopButton.disabled = true;
+					status.textContent = "Recording is avaialable.";
+				});
+				
+				// Audio recording begins
+				mediaRecorder.start();
+				
+				// Enable stop button, disable start button to prevent multiple recordings at the same time
+				startButton.disabled = true;
+				stopButton.disabled = false;
+				status.textContent = "Recording in Progress...";
+				
+			// Catch error and display message
+			} catch (error) {
+				console.error(error);
+				status.textContent = "Unable to access the microphone. Turn Microphone permission on.";	
+			}
+		});
+		
+		// Stop recording if a recorder exists and is currently recording
+		stopButton.addEventListener("click", () => {
+			if (mediaRecorder && mediaRecorder.state === "recording") {
+				mediaRecorder.stop();
+				status.textContent = "Processing Recording...";
+			}
+		});
+	</script>
 </body>
 </html>
