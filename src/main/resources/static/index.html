@@ -54,8 +54,40 @@
 						type: "audio/webm"
 					});
 					
-					recordingResult.textContent = 
-						"Recording Finished: " + audioBlob.size + " bytes.";
+					// Displays message for user, showing the recording is being sent to the server
+					recordingResult.textContent = "Upload of recording is currently in progress.."
+					
+					// Creates a form for the server to receive the audio file
+					const formData = new FormData();
+					
+					// Adds the audio file to the form
+					formData.append("audio", audioBlob, "receiving.webm");
+					
+					// Send the audio file to the end-point
+					fetch("/api/audio", {
+						method: "POST",
+						body: formData
+					})
+					
+						// If an error occurs, the code is stopped and user is notified
+						.then((response) => {
+							if (!response.ok) {
+								throw new Error("Error. The recording could not be received");
+							}
+							return response.json();
+						})
+					
+						// The message and file size is returned by the java server
+						.then((data) => {
+							recordingResult.textContent = data.message + " " + data.size + " bytes.";
+						})
+					
+						// Error message is displayed if the upload fails
+						.catch((error) => {
+						console.error(error);
+						recordingResult.textContent = "Error. The recording could not be uploaded";
+						});
+					
 						
 					// Releases the micrphone after recording
 					stream.getTracks().forEach((track) => track.stop());
