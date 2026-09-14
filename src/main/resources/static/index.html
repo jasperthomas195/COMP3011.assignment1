@@ -70,22 +70,27 @@
 					})
 					
 						// If an error occurs, the code is stopped and user is notified
-						.then((response) => {
+						.then(async (response) => {
+							
+							// The response is read as text, even if it fails
+							const responseText = await response.text();
+							
+							// Errors can then be treated 
 							if (!response.ok) {
-								throw new Error("Error. The recording could not be received");
+								throw new Error("Upload failed (" + response.status + "): " + responseText);
 							}
-							return response.json();
+							return responseText;
 						})
 					
-						// The message and file size is returned by the java server
-						.then((data) => {
-							recordingResult.textContent = data.message + " " + data.size + " bytes.";
+						// The transcription text returned by OpenAI is displayed
+						.then((transcription) => {
+							recordingResult.textContent = "Transcription: " + transcription;
 						})
 					
-						// Error message is displayed if the upload fails
+						// Displays the reason for error returned by the Java controller
 						.catch((error) => {
-						console.error(error);
-						recordingResult.textContent = "Error. The recording could not be uploaded";
+							console.error(error);
+							recordingResult.textContent = error.message;
 						});
 					
 						
