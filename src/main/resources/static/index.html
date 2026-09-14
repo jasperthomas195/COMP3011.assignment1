@@ -85,12 +85,14 @@
 						// The transcription text returned by OpenAI is displayed
 						.then((transcription) => {
 							recordingResult.textContent = "Transcription: " + transcription;
+							status.textContent = "Recording is available.";
 						})
 					
 						// Displays the reason for error returned by the Java controller
 						.catch((error) => {
 							console.error(error);
 							recordingResult.textContent = error.message;
+							status.textContent = "Recording is available.";
 						});
 					
 						
@@ -99,7 +101,7 @@
 					
 					startButton.disabled = false;
 					stopButton.disabled = true;
-					status.textContent = "Recording is avaialable.";
+					status.textContent = "Transcribing the recording...";
 				});
 				
 				// Audio recording begins
