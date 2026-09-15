@@ -4,23 +4,169 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speech Transcription</title>
+	<style>
+	* {
+		box-sizing: border-box;
+	}	
+	
+	.status-box {
+	    text-align: left;
+		padding: 30px 24px;
+	}
+	
+	.status-heading {
+		color: black;
+		font-family: sans-serif;
+		font-size: 20px;
+	}
+	
+	body {
+		margin:0;
+		min-height: 100vh;
+		padding: 50px 20px;
+		font-family: sans-serif;
+	}
+	
+	.page-container {
+	    width: min(100%, 660px);
+	    margin: 0 auto;
+	}
+	
+	.box {
+		width: 100%;
+		min-height: 120px;
+		background-color: floralwhite;
+		border: 3px solid darkslategrey;
+		border-radius: 8px;
+		padding: 30px;
+		margin: 0 0 15px;
+		text-align: center;
+	}
+	
+	h1 {
+		margin: 0 0 14px;
+	    color: black;
+		font-family: sans-serif;
+		text-align: center;
+	}
+	
+	.status,
+	.recording-result {
+	    margin: 0;
+	    color: grey;
+	    font-family: sans-serif;
+	    line-height: 1.5;
+	}
+	
+	.recording-result {
+	    margin-top: 14px;
+	}
+	
+	.intro-text {
+	    margin: 0;
+	    color: grey;
+	    font-family: sans-serif;
+	    text-align: center;
+	}
+	
+	.button-box {
+	    display: flex;
+	    justify-content: center;
+	    gap: 40px;
+		align-items: center;
+		width: 100%;
+	}
+
+	.startButton {
+		flex: 1;
+		min-width: 0;
+		background-color: green;
+		color: white;
+		font-size: 20px;
+		font-family: sans-serif;
+		padding: 30px 50px;
+		cursor: pointer;
+		transition: background 0.3s ease;
+	}
+	
+	.startButton:hover:not(:disabled) {
+	  	background-color: darkgreen;
+	}
+	
+	.stopButton {
+		flex: 1;
+		min-width: 0;
+		background-color: red;
+		color: white;
+		font-size: 20px;
+		font-family: sans-serif;
+		padding: 30px 50px;
+		cursor: pointer;
+		transition: background 0.3s ease;
+	}
+
+	.stopButton:hover:not(:disabled) {
+	  background-color: darkred;
+	}
+
+	.startButton:disabled,
+	.stopButton:disabled {
+	    cursor: not-allowed;
+	    opacity: 0.5;
+	}
+	
+	@media (max-width: 520px) {
+	    .button-box {
+	        flex-direction: column;
+	        align-items: stretch;
+	    }
+
+	    .startButton,
+	    .stopButton {
+	        width: 100%;
+	    }
+
+	    .box {
+	        padding: 30px 18px;
+	    }
+
+	    h1 {
+	        font-size: 1.8rem;
+	    }
+	}
+</style>
 </head>
 <body>
-    <h1>Java Web Project</h1>
-    <p>Assignment 1</p>
+	<main class="page-container">
+		
+	<section class="box">
+    <h1>Speech to Text Transcription</h1>
+	<p class="intro-text">Begin recording audio for transcription...</p>
 	
-	<!--Starts a new recording-->
-	<button id="startButton">Start Recording</button>
+	</section>
 	
-	<!--Stops the current recording, disabled until recording begins-->
-	<button id="stopButton" disabled>Stop Recording</button>
+	<section class="box">
+		<div class="button-box">
+			<!--Starts a new recording-->
+			<button class="startButton" id = "startButton" type="button">Start Recording</button>
+
+			<!--Stops the current recording, disabled until recording begins-->
+			<button class="stopButton" id = "stopButton" type="button" disabled>Stop Recording</button>
+		</div>
+	</section>
+
+	<section class="box status-box">
+	
+	<p class="status-heading"><b><u>STATUS</u></b></p>
 	
 	<!--Displays the current status of the recording-->
-	<p id="status">Ready to record.</p>
+	<p id="status" class="status">Ready to record.</p>
 	
 	<!--When recording is finished, the message begins recording-->
-	<p id="recordingResult"></p>
+	<p id="recordingResult" class="recording-result"></p>
 	
+	</section>
+		
 	<script>
 		let mediaRecorder;
 		let audioChunks = []; 
