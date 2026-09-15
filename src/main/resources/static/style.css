@@ -1,0 +1,140 @@
+
+	* {
+		box-sizing: border-box;
+	}	
+	
+	.status-box {
+	    text-align: left;
+	    padding: 20px;
+	}
+	
+	.status-heading {
+	    margin: 0 0 10px;
+	    color: black;
+	    font-family: sans-serif;
+	    font-size: 20px;
+	}
+	
+	.status {
+		margin: 0;
+		color: forestgreen;
+		font-style: oblique;
+		font-weight: 1000;
+		font-family: sans-serif;
+		line-height: 1.5;
+	}
+	
+	
+	.recording-result {
+	    margin: 0;
+	    color: grey;
+	    font-family: sans-serif;
+	    line-height: 1.5;
+	}
+	
+	body {
+		margin:0;
+		min-height: 100vh;
+		padding: 50px 20px;
+		font-family: sans-serif;
+	}
+	
+	.page-container {
+	    width: min(100%, 660px);
+	    margin: 0 auto;
+	}
+	
+	.box {
+		width: 100%;
+		min-height: 120px;
+		background-color: floralwhite;
+		border: 3px solid darkslategrey;
+		border-radius: 8px;
+		padding: 30px;
+		margin: 0 0 15px;
+		text-align: center;
+	}
+	
+	h1 {
+		margin: 0 0 14px;
+	    color: black;
+		font-family: sans-serif;
+		text-align: center;
+	}
+	
+	.recording-result {
+	    margin-top: 14px;
+	}
+	
+	.intro-text {
+	    margin: 0;
+	    color: grey;
+	    font-family: sans-serif;
+	    text-align: center;
+	}
+	
+	.button-box {
+	    display: flex;
+	    justify-content: center;
+	    gap: 40px;
+		align-items: center;
+		width: 100%;
+	}
+
+	.startButton {
+		flex: 1;
+		min-width: 0;
+		background-color: green;
+		color: white;
+		font-size: 20px;
+		font-family: sans-serif;
+		padding: 30px 50px;
+		cursor: pointer;
+		transition: background 0.3s ease;
+	}
+	
+	.startButton:hover:not(:disabled) {
+	  	background-color: darkgreen;
+	}
+	
+	.stopButton {
+		flex: 1;
+		min-width: 0;
+		background-color: red;
+		color: white;
+		font-size: 20px;
+		font-family: sans-serif;
+		padding: 30px 50px;
+		cursor: pointer;
+		transition: background 0.3s ease;
+	}
+
+	.stopButton:hover:not(:disabled) {
+	  background-color: darkred;
+	}
+
+	.startButton:disabled,
+	.stopButton:disabled {
+	    cursor: not-allowed;
+	    opacity: 0.5;
+	}
+	
+	@media (max-width: 520px) {
+	    .button-box {
+	        flex-direction: column;
+	        align-items: stretch;
+	    }
+
+	    .startButton,
+	    .stopButton {
+	        width: 100%;
+	    }
+
+	    .box {
+	        padding: 30px 18px;
+	    }
+
+	    h1 {
+	        font-size: 1.8rem;
+	    }
+	}
