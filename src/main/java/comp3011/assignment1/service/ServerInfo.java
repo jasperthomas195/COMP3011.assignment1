@@ -26,7 +26,7 @@ public class ServerInfo {
 	public double getUptimeSeconds() {
 		Instant now = getNow();
 		
-		return Duration.between(serverStart, now).toSeconds()/1000;
+		return Duration.between(serverStart, now).toSeconds();
 	}
 	
 }
