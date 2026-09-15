@@ -12,7 +12,6 @@
 	<section class="box">
     <h1>Speech to Text Transcription</h1>
 	<p class="intro-text">Begin recording audio for transcription...</p>
-	
 	</section>
 	
 	<section class="box">
@@ -26,7 +25,6 @@
 	</section>
 
 	<section class="box status-box">
-	
 	<p class="status-heading"><b><u>STATUS</u></b></p>
 	
 	<!--Displays the current status of the recording-->
@@ -35,16 +33,24 @@
 	<!--When recording is finished, the message begins recording-->
 	<p id="recordingResult" class="recording-result"></p>
 	
+	<div class="timer-container">
+		<span id="recordingIndicator" class="recording-indicator"></span>
+		<p id="recordingTimer" class="recording-timer">0 seconds</p>
+	</div>
 	</section>
 		
 	<script>
 		let mediaRecorder;
 		let audioChunks = []; 
+		let seconds = 0;
+		let timer;
 		
 		const startButton = document.getElementById("startButton");
 		const stopButton = document.getElementById("stopButton");
 		const status = document.getElementById("status");
 		const recordingResult = document.getElementById("recordingResult");
+		const recordingTimer = document.getElementById("recordingTimer");
+		const recordingIndicator = document.getElementById("recordingIndicator");
 		
 		startButton.addEventListener("click", async () => {
 			try {
@@ -124,6 +130,16 @@
 				// Audio recording begins
 				mediaRecorder.start();
 				
+				// Create a timer to track how long the recording has been going
+				seconds = 0;
+				recordingTimer.textContent = "0 seconds";
+				recordingIndicator.classList.add("recording");
+
+				timer = setInterval(() => {
+				    seconds++;
+				    recordingTimer.textContent = seconds + " seconds";
+				}, 1000);
+				
 				// Enable stop button, disable start button to prevent multiple recordings at the same time
 				startButton.disabled = true;
 				stopButton.disabled = false;
@@ -141,6 +157,8 @@
 		stopButton.addEventListener("click", () => {
 			if (mediaRecorder && mediaRecorder.state === "recording") {
 				mediaRecorder.stop();
+				recordingIndicator.classList.remove("recording");
+				clearInterval(timer);
 				status.textContent = "Processing Recording...";
 			}
 		});

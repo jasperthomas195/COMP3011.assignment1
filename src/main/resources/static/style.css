@@ -4,8 +4,43 @@
 	}	
 	
 	.status-box {
-	    text-align: left;
-	    padding: 20px;
+		position: relative;
+		min-height: 180px;
+		text-align: left;
+		padding: 30px 24px;
+	}
+	
+	.timer-container {
+		position: absolute;
+		right: 24px;
+		bottom: 20px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		white-space: nowrap;
+	}
+	
+	.recording-timer {
+		margin: 0;
+		color: darkolivegreen;
+		font-family: sans-serif;
+		font-size: 16px;
+	}
+	
+	.recording-indicator {
+	    display: block;
+	    width: 18px;
+	    height: 18px;
+		flex: 0 0 18px;
+	    background-color: darkred;
+	    opacity: 0.5;
+		border-radius: 2px;
+	}
+	
+	.recording-indicator.recording {
+	    background-color: red;
+	    opacity: 1;
+		box-shadow: 0 0 6px 3px red;
 	}
 	
 	.status-heading {
@@ -13,6 +48,13 @@
 	    color: black;
 	    font-family: sans-serif;
 	    font-size: 20px;
+	}
+
+	.recording-result {
+	    margin-top: 14px;
+	    max-width: 100%;
+	    overflow-wrap: anywhere;
+	    line-height: 1.5;
 	}
 	
 	.status {
@@ -22,14 +64,6 @@
 		font-weight: 1000;
 		font-family: sans-serif;
 		line-height: 1.5;
-	}
-	
-	
-	.recording-result {
-	    margin: 0;
-	    color: grey;
-	    font-family: sans-serif;
-	    line-height: 1.5;
 	}
 	
 	body {
