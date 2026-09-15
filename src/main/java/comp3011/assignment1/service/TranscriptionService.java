@@ -24,13 +24,17 @@ public class TranscriptionService {
 	// Send http request to OpenAI
 	private final RestClient restClient;
 	
+	private final GlobalStats globalStats;
+	
 	// Receives configurations and creates the http client
 	public TranscriptionService(
 			@Value("${openai.transcription.url}") String transcriptionUrl,
-			@Value("${openai.transcription.model}") String transcriptionModel) {
+			@Value("${openai.transcription.model}") String transcriptionModel,
+			GlobalStats globalStats) {
 		
 		this.transcriptionUrl = transcriptionUrl;
 		this.transcriptionModel = transcriptionModel;
+		this.globalStats = globalStats;
 		this.restClient = RestClient.create();
 	}
 	
@@ -42,7 +46,16 @@ public class TranscriptionService {
 		return apiKey != null && !apiKey.isBlank();
 	}
 	
-	private record OpenAiTranscriptResponse(String text) {
+	// Token usage from OpenAI
+	private record OpenAiUsage(
+	        long input_tokens,
+	        long output_tokens) {
+	}
+	
+	// Response returned from OpenAI transcription api
+	private record OpenAiTranscriptResponse(
+	        String text,
+	        OpenAiUsage usage) {
 	}
 	
 	// Sends the audio recording to Open AI and returns the text
@@ -51,7 +64,7 @@ public class TranscriptionService {
 		
 		// If no key is available, the code will stop before the API request
 		if (apiKey == null || apiKey.isBlank()) {
-			throw new IllegalStateException("Error. OPENAI__API_KEY is not set");
+			throw new IllegalStateException("Error. OPENAI_API_KEY is not set");
 		}
 		
 		// The uploaded audio becomes a named file and is now available
@@ -93,6 +106,14 @@ public class TranscriptionService {
 		if (response == null || response.text() == null) {
 			throw new IllegalStateException("OpenAI transcription returned no text");
 		}
+		
+		// If the response contains no token usage, the problem is handled
+		if (response.usage() == null) {
+			throw new IllegalStateException("OpenAI returned no token usage");
+		}
+		
+		globalStats.addInputTokens(response.usage().input_tokens());
+		globalStats.addOutputTokens(response.usage().output_tokens());
 		
 		// The transcription text is only then sent back to the controller
 		return response.text();
