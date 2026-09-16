@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
 
+// In order to understand where and how to implement the code, AI research was used to gain a greater understanding and to help de-bug parts of the code
 // Handles communication with OpenAI service
 @Service
 public class TranscriptionService {

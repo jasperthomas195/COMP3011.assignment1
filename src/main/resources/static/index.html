@@ -6,6 +6,8 @@
     <title>Speech Transcription</title>
 	<link rel="stylesheet" href="style.css">
 </head>
+<!--In parts of the html below, generative AI was used to give inspiration on design choices, understanding parts of code, and helping to design the web page-->
+<!--As the file is reasonably large, it was also used to clean up the code and reduce time spent on de-bugging-->
 <body>
 	<main class="page-container">
 		
@@ -31,6 +33,7 @@
 	<!--When recording is finished, the message begins recording-->
 	<p id="recordingResult" class="recording-result"></p>
 	
+	<!--Displays the elapsed time since the beginning of the recording-->
 	<div class="timer-container">
 		<span id="recordingIndicator" class="recording-indicator"></span>
 		<p id="recordingTimer" class="recording-timer">0 seconds</p>
@@ -104,7 +107,7 @@
 					
 						// The transcription text returned by OpenAI is displayed
 						.then((transcription) => {
-							recordingResult.textContent = "Transcription: " + transcription;
+							recordingResult.textContent = "Transcription: "+ transcription;
 							status.textContent = "Recording is available.";
 						})
 					

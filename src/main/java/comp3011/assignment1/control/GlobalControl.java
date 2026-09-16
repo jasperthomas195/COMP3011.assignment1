@@ -7,7 +7,7 @@ import comp3011.assignment1.service.GlobalStats;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// provides the endpoint for retrieving global server statistics
+// Provides the endpoint for retrieving global server statistics
 @RestController
 public class GlobalControl {
 	

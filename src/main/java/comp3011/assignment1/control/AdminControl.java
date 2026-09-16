@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+// For parts of this class, generative AI was used to de-bug parts where I could not find the problem, and to speed up the process.
 // Provides the endpoints needed for the assignment
 @RestController
 public class AdminControl {
@@ -65,7 +65,7 @@ public class AdminControl {
 		
 		shutdownThread.start();
 		
-		// As the shutdown is performed separately, 202 Accepted indicates the request was received and shutdown has started 
+		// As the shutdown is performed separately, Accepted indicates the request was received and shutdown has started 
 		return ResponseEntity.status(HttpStatus.ACCEPTED)
 				.body(Map.of("message", "Graceful shutdown requested"));
 	}
